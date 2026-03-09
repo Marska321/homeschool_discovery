@@ -1,73 +1,54 @@
-# Welcome to your Lovable project
+# Kaleidoscope - South African Homeschool Discovery
 
-## Project info
+Discover the best homeschooling options in South Africa. Compare online schools, curriculum providers, and learning paths with honest parent reviews.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Project Features
 
-## How can I edit this code?
+- **Provider Directory**: Search and filter through South African homeschooling providers.
+- **True Cost Calculator**: Estimate the total cost of your homeschooling journey.
+- **Pathway Mapper**: Find the right educational path for your child.
+- **Readiness Checklist**: Assess if your family is ready to start homeschooling.
+- **Comparison Tools**: Side-by-side comparison for both providers and curricula.
+- **Analytics**: Integrated Vercel Analytics for tracking user engagement.
 
-There are several ways of editing your application.
+## Technologies Used
 
-**Use Lovable**
+- **Framework**: React 18 with Vite
+- **Language**: TypeScript (Strict Mode)
+- **Styling**: Tailwind CSS & shadcn/ui
+- **Routing**: React Router
+- **State/Data**: React Query
+- **Testing**: Vitest & React Testing Library
+- **Analytics**: @vercel/analytics
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or later)
+- npm (v9 or later)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Marska321/homeschool_discovery.git
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Start the development server:
+   ```sh
+   npm run dev
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Deployment
 
-# Step 3: Install the necessary dependencies.
-npm i
+The project is configured for easy deployment on **Vercel**. Simply connect your GitHub repository to Vercel and it will automatically handle the build and deployment process.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+*This project is an independent platform built to support the South African homeschooling community.*
