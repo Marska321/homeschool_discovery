@@ -1,4 +1,4 @@
-export type ProviderCategory = "online-school" | "curriculum-provider" | "curriculum" | "christian" | "alternative";
+export type ProviderCategory = "online-school" | "curriculum-provider" | "curriculum" | "christian" | "alternative" | "extracurricular";
 
 export type AccessibilityTag =
   | "audio-assessments"
@@ -65,6 +65,7 @@ export const categories = [
   { id: "curriculum" as const, label: "Curricula", icon: "📝", description: "Individual curriculum options like CAPS, Cambridge, IEB & more" },
   { id: "christian" as const, label: "Christian & Faith-Based", icon: "✝️", description: "Faith-integrated education with biblical worldview and character focus" },
   { id: "alternative" as const, label: "Alternative Approaches", icon: "🌿", description: "Charlotte Mason, classical, project-based and other non-traditional methods" },
+  { id: "extracurricular" as const, label: "Extracurricular Activities", icon: "⚽", description: "Sports, arts, culture, and other after-school activities" },
 ];
 
 export const categoryLabels: Record<ProviderCategory, string> = {
@@ -73,6 +74,7 @@ export const categoryLabels: Record<ProviderCategory, string> = {
   "curriculum": "Curriculum",
   "christian": "Christian & Faith-Based",
   "alternative": "Alternative Approach",
+  "extracurricular": "Extracurricular Activities",
 };
 
 export const providers: Provider[] = [
@@ -786,4 +788,28 @@ export const providers: Provider[] = [
       { id: "r-gb1", author: "Suzanne L.", rating: 5, date: "2025-11-20", text: "The most beautiful curriculum materials I've ever seen. My kids actually ask to do school!", helpful: 16 },
     ],
   },
+
+  // ===== EXTRACURRICULAR ACTIVITIES =====
+  {
+    id: "ballroom-latin-dance",
+    name: "Ballroom and Latin Classes",
+    description: "A fun and energetic way for children to stay active, build confidence, and make new friends. Dance is not just fun—it’s a SPORT!",
+    fullDescription: "Let your kids dance, move, and have fun! Ballroom and Latin Classes are a fantastic way for children to stay active, build confidence, and make new friends in a welcoming environment. All kids and beginners are welcome. Vernon is the contact person.",
+    category: "extracurricular",
+    rating: 0,
+    reviewCount: 0,
+    tags: ["Dance", "Sports", "Extracurricular"],
+    image: "https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=600&h=400&fit=crop",
+    location: "Bosmansdam Primary School",
+    pricing: "Fees Apply (Contact for details)",
+    phone: "081 383 6255",
+    features: [
+      "Build fitness",
+      "Learn new dance moves",
+      "Make friends",
+      "Grow confidence",
+      "Mondays & Wednesdays (19:00 - 21:00)"
+    ],
+    reviews: []
+  }
 ];

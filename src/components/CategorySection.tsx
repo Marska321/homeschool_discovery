@@ -17,6 +17,7 @@ const CATEGORY_IMAGES: Record<ProviderCategory, string> = {
   curriculum: catCurriculum,
   christian: catChristian,
   alternative: catAlternative,
+  extracurricular: "https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=600&h=400&fit=crop",
 };
 
 /** Parse a pricing string into a numeric max value */
