@@ -24,6 +24,8 @@ const CurriculumCompare = lazy(() => import("./pages/CurriculumCompare"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 const SubmitProvider = lazy(() => import("./pages/SubmitProvider"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const BlogIndex = lazy(() => import("./pages/blog-index"));
+const BlogPostDetail = lazy(() => import("./pages/blog-post-detail"));
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,8 @@ const App = () => (
                   <Route path="/curriculum-compare" element={<CurriculumCompare />} />
                   <Route path="/faq" element={<FAQPage />} />
                   <Route path="/submit-provider" element={<SubmitProvider />} />
+                  <Route path="/blog" element={<BlogIndex />} />
+                  <Route path="/blog/:slug" element={<BlogPostDetail />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
               </Routes>
