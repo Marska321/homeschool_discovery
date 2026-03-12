@@ -16,6 +16,7 @@ const Footer = () => {
           <div className="flex gap-6 text-sm text-muted-foreground">
             <Link to="/faq" className="hover:text-foreground">FAQ</Link>
             <Link to="/community" className="hover:text-foreground">Community</Link>
+            <Link to="/blog" className="hover:text-foreground">Blog</Link>
             <Link to="/submit-provider" className="hover:text-foreground">Submit a Provider</Link>
           </div>
           <div className="mt-4 max-w-2xl rounded-lg border border-border bg-secondary/30 px-4 py-3 text-xs text-muted-foreground leading-relaxed text-left">
