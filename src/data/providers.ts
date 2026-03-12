@@ -799,7 +799,7 @@ export const providers: Provider[] = [
     rating: 0,
     reviewCount: 0,
     tags: ["Dance", "Sports", "Extracurricular"],
-    image: "https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=600&h=400&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/72/MIT_2006_Latin_Intermediate.jpg",
     location: "Bosmansdam Primary School",
     pricing: "Fees Apply (Contact for details)",
     phone: "081 383 6255",
