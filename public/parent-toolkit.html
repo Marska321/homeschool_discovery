@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Thinking Parent's Psychology Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #1c1e14;
+    --header-bg: #feffd6;            /* stitch: surface-bright / parchment */
+    --border: rgba(255,255,255,0.08);
+    --text-dim: rgba(255,255,255,0.32);
+    --text-muted: rgba(255,255,255,0.58);
+    --text-main: rgba(255,255,255,0.9);
+    --text-dark: #383832;            /* stitch: on-surface — warm espresso, not pure black */
+    --mono: 'Manrope', 'DM Mono', monospace;   /* Manrope for all UI labels/metadata */
+    --serif: 'Newsreader', Georgia, serif;      /* Newsreader for all display + body */
+    --lora: 'Newsreader', Georgia, serif;       /* redirect --lora refs to Newsreader */
+    /* stitch surface hierarchy */
+    --surface-low: #fcf9ef;
+    --surface-mid: #f6f4e9;
+    --surface-high: #f1eee3;
+    --surface-highest: #ebe8dd;
+    --on-surface: #383832;
+    --primary: #9c4e33;
+    --secondary: #536a56;
+    --tertiary: #855d00;
+    --tertiary-container: #ffc55f;
+  }
+
+  html, body { background: var(--bg); color: var(--text-main); font-family: var(--mono); min-height: 100vh; overflow-x: hidden; }
+
+  /* ── NAV — cream background ─────────────────────────────────────────── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    background: var(--header-bg);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--text-dark); letter-spacing: 0.01em; font-weight: 400; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primary); text-decoration: none; cursor: pointer; transition: opacity 0.18s; }
+  .nav-links a:not(:first-child) { color: var(--secondary); opacity: 0.8; }
+  .nav-links a:hover { opacity: 0.7; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-search { display: flex; align-items: center; gap: 8px; background: var(--surface-highest); border-radius: 20px; padding: 6px 14px; font-family: var(--mono); font-size: 11px; color: #828179; }
+  .nav-icons { display: flex; gap: 14px; color: var(--text-dark); font-size: 16px; opacity: 0.7; }
+
+  /* ── HEADER — cream area ─────────────────────────────────────────────── */
+  .header-area {
+    background: var(--header-bg);
+    padding: 28px 40px 36px;
+    border-bottom: 2px solid rgba(56,56,50,0.12);
+  }
+  .vol-label { font-family: var(--mono); font-size: 10px; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; color: var(--primary); margin-bottom: 10px; }
+  .page-title { font-family: var(--serif); font-size: 58px; font-weight: 400; color: var(--text-dark); line-height: 1; letter-spacing: -0.02em; }
+  .header-row { display: flex; align-items: flex-end; justify-content: space-between; }
+  .new-entry-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--primary); color: #fff;
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    border: none; padding: 12px 22px; cursor: pointer;
+    transition: transform 0.15s, filter 0.18s;
+    box-shadow: 0 8px 24px -4px rgba(156,78,51,0.45);
+    transform: rotate(-0.5deg);
+  }
+  .new-entry-btn:hover { filter: brightness(1.08); transform: rotate(-0.5deg) translateY(-2px); }
+
+  /* ── STACK AREA — dark olive ─────────────────────────────────────────── */
+  .stack-container { padding: 0; }
+
+  /* ── FOLDER CARD — large coloured band with protruding index tab ──────── */
+  .folder-wrap {
+    position: relative;
+    margin-top: 30px; /* space for the protruding tab above */
+  }
+  .folder-wrap:first-child { margin-top: 0; }
+
+  .folder-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 96px;
+    padding: 24px 48px 24px 48px;
+    cursor: pointer;
+    position: relative;
+    transition: filter 0.2s, transform 0.2s;
+    user-select: none;
+    overflow: visible;
+    /* stitch archival-shadow */
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.35), 0 4px 6px -2px rgba(0,0,0,0.05);
+  }
+  .folder-card:hover { filter: brightness(1.06); transform: translateY(-2px); }
+  .folder-card.f-open { filter: brightness(1.1); transform: translateY(-2px); }
+
+  /* Left side: title + entry date */
+  .folder-card-left { display: flex; flex-direction: column; gap: 6px; }
+  .folder-name {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.97);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .folder-meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* Right side: folder icon */
+  .folder-icon {
+    font-size: 28px;
+    opacity: 0.45;
+    flex-shrink: 0;
+    margin-left: 24px;
+    transition: opacity 0.18s;
+  }
+  .folder-card:hover .folder-icon,
+  .folder-card.f-open .folder-icon { opacity: 0.85; }
+
+  /* ── INDEX TAB — protrudes from top of next card, clip-path gives angled edge ── */
+  .index-tab {
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    /* sits above the card, protruding upward — matches reference */
+    top: -26px;
+    left: 36px;
+    height: 26px;
+    padding: 0 18px 0 12px;
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+    /* angled right edge — the distinctive folder tab shape from stitch */
+    clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);
+    z-index: 2;
+    cursor: pointer;
+    transition: filter 0.15s;
+    white-space: nowrap;
+    min-width: 100px;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.25);
+  }
+  .index-tab:hover { filter: brightness(1.15); }
+  .index-tab.it-active { filter: brightness(1.2); }
+
+  .index-tabs-row {
+    position: absolute;
+    top: -26px;
+    left: 36px;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  /* ── OPEN PANEL — transparent, cards on dark bg ──────────────────────── */
+  .folder-panel {
+    width: 100%;
+    overflow: hidden;
+    height: 0;
+    transition: height 0.44s cubic-bezier(0.22,1,0.36,1);
+    background: transparent;
+  }
+  .panel-inner {
+    padding: 18px 40px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Filter chip strip */
+  .subtab-filter-strip { display: none; gap: 8px; padding-bottom: 14px; border-bottom: 0.5px solid rgba(255,255,255,0.1); margin-bottom: 6px; flex-wrap: wrap; }
+  .subtab-filter-strip.visible { display: flex; }
+  .filter-chip { display: inline-flex; align-items: center; height: 22px; padding: 0 11px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; cursor: pointer; border-radius: 4px; opacity: 0.45; transition: opacity 0.15s, filter 0.15s; user-select: none; }
+  .filter-chip:hover { opacity: 0.78; }
+  .filter-chip.chip-active { opacity: 1; filter: brightness(1.18); box-shadow: 0 0 0 1px rgba(255,255,255,0.28) inset; }
+
+  /* Doc cards */
+  .doc-card { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.09); border-radius: 0; padding: 14px 20px; display: grid; grid-template-columns: 80px 1fr auto; gap: 14px; align-items: start; cursor: pointer; transition: background 0.18s, border-color 0.2s, transform 0.15s, opacity 0.22s, max-height 0.32s; }
+  .doc-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); transform: translateX(4px); }
+  .doc-card.card-hidden { opacity: 0; pointer-events: none; max-height: 0; margin: 0; padding: 0; border-width: 0; overflow: hidden; }
+  .doc-id { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; font-family: var(--mono); color: var(--text-dim); padding-top: 2px; line-height: 1.5; text-transform: uppercase; }
+  .doc-body { display: flex; flex-direction: column; gap: 4px; }
+  .doc-status { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-family: var(--mono); color: var(--text-dim); }
+  .doc-desc { font-size: 12px; line-height: 1.7; font-family: var(--serif); color: var(--text-muted); }
+  .doc-date { font-size: 9px; letter-spacing: 0.08em; font-family: var(--mono); color: var(--text-dim); text-align: right; padding-top: 2px; white-space: nowrap; }
+
+  /* ── FOLDER COLOURS ──────────────────────────────────────────────────── */
+  .c-sage    { background: #D4396A; color: #fff; }   /* hot pink / magenta — folder 1 */
+  .c-navy    { background: #E07820; color: #fff; }   /* orange — folder 2 */
+  .c-terra   { background: #2E8B40; color: #fff; }   /* green — folder 3 */
+  .c-mauve   { background: #C43020; color: #fff; }   /* red — folder 4 */
+  .c-amber   { background: #7B3FA8; color: #fff; }   /* purple — folder 5 */
+  .c-plum    { background: #2060C8; color: #fff; }   /* blue — folder 6 */
+  .c-teal    { background: #C43878; color: #fff; }   /* pink-red — folder 7 */
+  .c-rust    { background: #1A6AC8; color: #fff; }   /* cobalt — folder 8 */
+
+  /* Index tab colours — darker variants of their folder */
+  .it-sage   { background: #a82050; }
+  .it-navy   { background: #b85e10; }
+  .it-terra  { background: #1e6830; }
+  .it-mauve  { background: #922010; }
+  .it-amber  { background: #5a2a88; }
+  .it-plum   { background: #1448a8; }
+  .it-teal   { background: #922050; }
+  .it-rust   { background: #0e50a8; }
+
+  /* Subtab colour reuse for filter chips */
+  .c-cobalt  { background: #1A5AAA; color: #fff; }
+  .c-yellow  { background: #C8A800; color: rgba(0,0,0,0.8); }
+  .c-black   { background: #2a2a2a; color: rgba(255,255,255,0.75); }
+  .c-violet  { background: #3D2299; color: #fff; }
+  .c-crimson { background: #9A1825; color: #fff; }
+  .c-pink    { background: #AA1844; color: #fff; }
+
+  /* panel classes — no-op, kept so JS references don't break */
+  .p-sage,.p-navy,.p-terra,.p-mauve,.p-amber,.p-plum,.p-teal,.p-rust { background: transparent; }
+
+  /* ── FOOTER / CURATOR SECTION ────────────────────────────────────────── */
+  .curator-section {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+    padding: 48px 40px 60px;
+    background: var(--bg);
+  }
+  .curator-label { font-family: var(--mono); font-size: 9px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--primary); margin-bottom: 14px; }
+  .curator-text { font-family: var(--serif); font-size: 16px; font-style: italic; line-height: 1.75; color: rgba(255,255,255,0.55); max-width: 480px; }
+  .verify-card { background: var(--header-bg); padding: 14px 18px; min-width: 200px; transform: rotate(-1.5deg); box-shadow: 2px 4px 20px rgba(0,0,0,0.2); border-left: 3px solid var(--primary); }
+  .verify-label { font-family: var(--mono); font-size: 8px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--on-surface); margin-bottom: 10px; }
+  .verify-status { display: flex; align-items: center; gap: 8px; font-family: var(--serif); font-size: 12px; color: var(--on-surface); }
+  .verify-dot { width: 8px; height: 8px; border-radius: 50%; background: #2e7d32; flex-shrink: 0; }
+
+  /* DETAIL OVERLAY */
+  .detail-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0); pointer-events: none; transition: background 0.35s; }
+  .detail-overlay.open { background: rgba(0,0,0,0.78); pointer-events: all; }
+  .detail-overlay.closing { background: rgba(0,0,0,0); pointer-events: none; }
+
+  .detail-panel { width: 860px; max-width: calc(100vw - 32px); max-height: calc(100vh - 60px); overflow-y: auto; border-radius: 0; transform: translateY(24px) scale(0.96); opacity: 0; transition: transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.3s; scrollbar-width: none; box-shadow: 0 40px 120px rgba(0,0,0,0.8); }
+  .detail-panel::-webkit-scrollbar { display: none; }
+  .detail-overlay.open .detail-panel { transform: translateY(0) scale(1); opacity: 1; }
+  .detail-overlay.closing .detail-panel { transform: translateY(18px) scale(0.97); opacity: 0; transition: transform 0.3s cubic-bezier(0.4,0,1,1), opacity 0.22s; }
+
+  .detail-folder-bar { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+  .detail-folder-bar .close-x { cursor: pointer; font-size: 20px; line-height: 1; color: rgba(255,255,255,0.45); transition: color 0.2s; background: none; border: none; font-family: var(--mono); padding: 4px; }
+  .detail-folder-bar .close-x:hover { color: rgba(255,255,255,0.9); }
+
+  /* ── DETAIL PANEL — stitch design system ─────────────────────────────── */
+
+  /* Aged paper — dot-grid texture from stitch */
+  .detail-doc {
+    background-color: var(--surface-low);
+    background-image: radial-gradient(#d1cfc8 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    padding: 0;
+    position: relative;
+  }
+
+  /* Two-column layout: main paper left, sidebar right */
+  .detail-inner {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 0;
+    align-items: start;
+  }
+
+  /* Main paper column */
+  .detail-main {
+    padding: 44px 40px 52px;
+  }
+
+  /* Right sidebar column */
+  .detail-sidebar {
+    padding: 44px 24px 44px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* File badge */
+  .detail-file-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--on-surface);
+    background: var(--tertiary-container);
+    padding: 3px 10px;
+    margin-bottom: 8px;
+    transform: rotate(-0.5deg);
+    display: inline-block;
+  }
+  .detail-case-line {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #828179;
+    margin-bottom: 18px;
+  }
+
+  /* Title — Newsreader, large, split weight */
+  .detail-title {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--on-surface);
+    margin-bottom: 0;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .detail-title-italic {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--primary);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .detail-byline {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-style: italic;
+    color: #65655e;
+    margin-bottom: 28px;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  /* Theoretical overview section — tilt left, paper texture card */
+  .detail-overview {
+    background-color: var(--surface-low);
+    background-image: radial-gradient(#d1cfc8 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    padding: 32px 36px;
+    margin-bottom: 24px;
+    transform: rotate(-0.4deg);
+    box-shadow: 2px 2px 10px rgba(56,56,50,0.05), inset 0 0 40px rgba(56,56,50,0.02);
+    position: relative;
+  }
+  .detail-overview-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .detail-overview-bar {
+    width: 3px;
+    height: 48px;
+    background: var(--primary);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .detail-overview-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--on-surface);
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+  .detail-overview-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  /* Drop-cap body text */
+  .detail-body {
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--on-surface);
+  }
+  .detail-body-dropcap::first-letter {
+    font-size: 2.8em;
+    font-weight: 700;
+    float: left;
+    line-height: 0.75;
+    margin-right: 6px;
+    margin-top: 4px;
+    color: var(--on-surface);
+  }
+
+  /* Core premise / key insight blockquote */
+  .detail-premise {
+    border-left: 3px solid var(--primary);
+    background: var(--surface-high);
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .detail-premise-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .detail-premise-text {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--on-surface);
+  }
+
+  /* Section headers */
+  .detail-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 24px 0 16px;
+  }
+  .detail-section-label {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--on-surface);
+  }
+
+  /* Tips list */
+  .detail-tips { list-style: none; padding: 0; margin-bottom: 20px; }
+  .detail-tips li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--on-surface);
+    padding: 8px 0;
+  }
+  .detail-tips li + li { border-top: 1px solid rgba(56,56,50,0.08); }
+  .tip-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+    padding-top: 3px;
+  }
+
+  /* Age/dev reference table — styled as a separate clipped note */
+  .detail-ref-card {
+    background: var(--surface-low);
+    background-image: radial-gradient(#d1cfc8 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    padding: 20px 24px 24px;
+    box-shadow: 2px 2px 10px rgba(56,56,50,0.06);
+    transform: rotate(0.3deg);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .detail-ref-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #828179;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(56,56,50,0.12);
+    padding-bottom: 8px;
+  }
+  .detail-age-table { width: 100%; border-collapse: collapse; }
+  .detail-age-table th {
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #828179;
+    padding: 4px 6px 8px;
+    text-align: left;
+  }
+  .detail-age-table td {
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--on-surface);
+    padding: 7px 6px;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .detail-age-table tr + tr td { border-top: 1px solid rgba(56,56,50,0.08); }
+  .age-pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+  }
+  .detail-ref-verified {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #828179;
+    border-top: 1px solid rgba(56,56,50,0.1);
+    padding-top: 10px;
+  }
+  .detail-ref-verified-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--secondary); flex-shrink: 0; }
+
+  /* Margin notes — mustard sticky card from stitch */
+  .detail-margin-note {
+    background: var(--tertiary-container);
+    padding: 16px 18px;
+    transform: rotate(0.5deg);
+    box-shadow: 2px 4px 14px rgba(56,56,50,0.12);
+    position: relative;
+  }
+  .detail-margin-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #5d4000;
+    margin-bottom: 8px;
+  }
+  .detail-margin-text {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.65;
+    color: #452e00;
+  }
+  .detail-margin-sig {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: #6a4400;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+
+  /* Paperclip flourish */
+  .detail-paperclip {
+    text-align: center;
+    font-size: 22px;
+    opacity: 0.3;
+    margin: 4px 0;
+    transform: rotate(-10deg);
+  }
+
+  /* Styles grid */
+  .d-styles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .d-style-card {
+    padding: 14px 16px;
+    background: var(--surface-high);
+    box-shadow: 1px 1px 4px rgba(56,56,50,0.06);
+  }
+  .d-style-name { font-family: var(--serif); font-weight: 700; font-size: 14px; margin-bottom: 4px; color: var(--on-surface); }
+  .d-style-tag { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; display: inline-block; margin-bottom: 8px; }
+  .d-style-desc { font-family: var(--serif); font-size: 12px; color: #65655e; line-height: 1.55; }
+
+  /* Desires tags */
+  .d-desires { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .d-desire-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    background: var(--surface-highest);
+    color: var(--on-surface);
+    border-bottom: 2px solid rgba(56,56,50,0.15);
+  }
+
+  /* Footer: rubber stamp + receipt */
+  .doc-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(56,56,50,0.1);
+    flex-wrap: wrap;
+  }
+  .doc-footer-meta {
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #828179;
+    line-height: 2;
+  }
+  .doc-footer-meta span { display: block; }
+  .doc-footer-meta strong { color: var(--on-surface); }
+
+  /* Rubber stamp — stitch style: double border, red, rotated */
+  .rubber-stamp {
+    border: 3px double #be2d06;
+    color: #be2d06;
+    padding: 6px 14px;
+    font-family: var(--mono);
+    font-weight: 900;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transform: rotate(-12deg);
+    opacity: 0.75;
+    flex-shrink: 0;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .rubber-stamp-sub {
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    display: block;
+    opacity: 0.8;
+  }
+
+  /* Legacy receipt (kept for compat, styled as footer-meta now) */
+  .receipt { display: none; }
+  .stamp-circle { display: none; }
+
+  .detail-divider { border: none; border-top: 1px solid rgba(56,56,50,0.1); margin: 20px 0; }
+
+  @media (max-width: 640px) {
+    .detail-inner { grid-template-columns: 1fr; }
+    .detail-sidebar { padding: 0 24px 36px; }
+    .detail-main { padding: 32px 24px 28px; }
+    .detail-title { font-size: 30px; }
+    .detail-title-italic { font-size: 30px; }
+    .d-styles-grid { grid-template-columns: 1fr; }
+    .doc-footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">The Human Archive</div>
+  <div class="nav-links">
+    <a>Theory Index</a>
+    <a>Development</a>
+    <a>Emotions</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-search">🔍 Search Archives...</div>
+    <div class="nav-icons">📖 ⚙</div>
+  </div>
+</nav>
+
+<div class="header-area">
+  <div class="vol-label">Volume IV &bull; Series 02</div>
+  <div class="header-row">
+    <div class="page-title">The Thinking Parent</div>
+    <button class="new-entry-btn">&#43; New Entry</button>
+  </div>
+</div>
+
+<div class="stack-container" id="stack"></div>
+
+<div class="curator-section">
+  <div>
+    <div class="curator-label">Curator&rsquo;s Note</div>
+    <div class="curator-text">&ldquo;These frameworks represent the foundational literature of developmental and parenting psychology. Each folder contains annotated theory cards drawn from primary sources. Handle with care &mdash; these are living documents, subject to revision as evidence evolves.&rdquo;</div>
+  </div>
+  <div class="verify-card">
+    <div class="verify-label">Verification Status</div>
+    <div class="verify-status"><span class="verify-dot"></span> Archival Grade Alpha</div>
+  </div>
+</div>
+
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-folder-bar" id="d-bar">
+      <span id="d-folder-name"></span>
+      <button class="close-x" onclick="closeDetail()">&#215;</button>
+    </div>
+    <div class="detail-doc" id="d-doc"></div>
+  </div>
+</div>
+
+<script>
+const folders = [
+  {
+    id:'f1', tab:'c-sage', panel:'p-sage', label:'Attachment Theory',
+    subtabs:[{label:'Secure Base', cls:'c-cobalt', key:'base'},{label:'Four Styles', cls:'c-black', key:'styles'}],
+    docs:[
+      {
+        id:'Theory 1 of 8', status:'What it is', subtag:'base',
+        desc:'Children are born with a biological need to bond with a caregiver. This bond becomes the internal template for all future relationships.',
+        date:'Bowlby, 1969',
+        content:{
+          title:'Attachment Theory', byline:'John Bowlby & Mary Ainsworth',
+          m1:'Bowlby, 1969', m2:'Developmental', m3:'Core framework',
+          note:'Foundational theory. See Ainsworth Strange Situation Procedure, 1970. Cross-reference: Secure Base construct.',
+          body:'Children are born with a deep biological need to form a close emotional bond with at least one caregiver. This bond becomes their internal template for all future relationships. When children feel safe and secure with you, they explore the world more boldly. When they feel anxious or uncertain, they pull back. It\'s that simple, and that powerful.',
+          excerpt:'Your child\'s attachment style is being shaped right now. A secure attachment is built through thousands of small, ordinary moments of consistent, warm response — not one perfect interaction.',
+          tips:[
+            {b:'Respond, don\'t just react.', t:' When your child is upset, acknowledge the feeling before fixing the problem. "You\'re really frustrated" goes further than "stop crying."'},
+            {b:'Be a safe harbour.', t:' Let them come back to you after an argument. Repair matters more than perfection.'},
+            {b:'Predictability is security.', t:' Consistent routines at bedtime, meals, and transitions build trust in your availability.'},
+            {b:'Physical comfort counts.', t:' Hugs, eye contact, and a calm tone of voice are direct inputs to the attachment system, especially in the first 3 years.'}
+          ],
+          table:{cols:['Age','What\'s happening','What you can do'],rows:[
+            {badge:'0-2',bg:'#d4ecd6',color:'#2a5c30',cells:['Attachment forms; stranger anxiety peaks around 8-12 months','Respond consistently; don\'t rush "independence"']},
+            {badge:'3-6',bg:'#dde8f5',color:'#1e3a5c',cells:['Uses you as a secure base to explore','Say goodbye warmly but confidently — your calm is contagious']},
+            {badge:'7-12',bg:'#fdf0d8',color:'#6a4400',cells:['Peer relationships grow; you remain the anchor','Be available when they come home from school']},
+            {badge:'13+',bg:'#ede8f5',color:'#4a2a6a',cells:['Teens need autonomy but still need you as a base','Stay connected without clinging; keep the door open']}
+          ]},
+          receipt:{to:'John Bowlby', date:'1969', addr:'Tavistock Institute,<br>London, UK'}
+        }
+      },
+      {
+        id:'Theory 1 of 8', status:'The Four Attachment Styles', subtag:'styles',
+        desc:'Secure, anxious, avoidant, disorganised. These four styles predict friendships, stress management, and adult relationships.',
+        date:'Ainsworth, 1970',
+        content:{
+          title:'The Four Attachment Styles', byline:'Mary Ainsworth — Strange Situation Procedure',
+          m1:'Ainsworth, 1970', m2:'Classification', m3:'Four styles',
+          note:'Strange Situation Procedure. Disorganised style added by Main & Solomon, 1986.',
+          body:'Ainsworth\'s research identified four distinct attachment patterns. The style a child develops depends largely on the consistency and quality of early caregiving responses. Importantly, these styles are not fixed destiny — attachment can shift with sustained, sensitive caregiving.',
+          stylesGrid:[
+            {name:'Secure', tag:'Consistent + Warm', tagBg:'#d4ecd6', tagColor:'#2a5c30', topColor:'#3d5c40', desc:'Distressed when caregiver leaves, easily soothed on return. Explores freely using caregiver as safe base. Linked to best outcomes across all domains.'},
+            {name:'Anxious / Ambivalent', tag:'Inconsistent caregiving', tagBg:'#fdf0d8', tagColor:'#6a4400', topColor:'#8a4a32', desc:'Clingy and difficult to soothe. Hypervigilant to caregiver availability. Often results from inconsistent — not absent — caregiving.'},
+            {name:'Avoidant', tag:'Dismissive caregiving', tagBg:'#ede8f5', tagColor:'#4a2a6a', topColor:'#3e2f5a', desc:'Appears independent but physiologically stressed. Learned to suppress attachment needs when caregivers were consistently unresponsive.'},
+            {name:'Disorganised', tag:'Frightened / frightening care', tagBg:'#f5ede6', tagColor:'#6b3a22', topColor:'#6b3a22', desc:'No coherent strategy. The caregiver is simultaneously the source of fear and comfort — an unresolvable paradox for the child\'s nervous system.'}
+          ],
+          excerpt:'Research on "earned security" shows that a consistently warm, predictable new relationship — with a partner, therapist, or even a teacher — can genuinely revise a child\'s internal model at any age.',
+          receipt:{to:'Mary Ainsworth', date:'1970', addr:'Johns Hopkins University,<br>Baltimore, USA'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f2', tab:'c-navy', panel:'p-navy', label:'Moral Development',
+    subtabs:[{label:'3 Levels', cls:'c-cobalt', key:'levels'}],
+    docs:[
+      {
+        id:'Theory 2 of 8', status:'What it is', subtag:'levels',
+        desc:'Children grow through stages of moral reasoning — from avoiding punishment, to pleasing others, to acting from genuine principle.',
+        date:'Kohlberg, 1958',
+        content:{
+          title:'Theory of Moral Development', byline:'Lawrence Kohlberg',
+          m1:'Kohlberg, 1958', m2:'Cognitive-developmental', m3:'Three levels',
+          note:'Extended Piaget\'s moral framework. Six stages across three levels. Post-conventional reasoning is rarer than assumed.',
+          body:'Children don\'t just learn rules — they grow through stages of moral reasoning. Pre-conventional (behaviour driven by reward and punishment), Conventional (following rules to be a "good person"), and Post-conventional (acting from personal principles, even if it means breaking rules). Most adults operate mostly at the conventional level.',
+          excerpt:'When your child takes a biscuit they weren\'t supposed to, they are simply at a developmental stage where "will I get caught?" is genuinely how moral thinking works. Match your expectations to their actual moral capacity.',
+          tips:[
+            {b:'Ask "why" questions.', t:' "Why do you think that was unfair?" pushes reasoning up a level — it activates moral thinking rather than just obedience.'},
+            {b:'Use dilemmas, not lectures.', t:' "What would you do if your friend asked you to lie for them?" builds moral muscle memory.'},
+            {b:'Model reasoning aloud.', t:' Let them hear you wrestle with a decision: "I wasn\'t sure if I should say something, but I decided it was right because..."'},
+            {b:'Separate consequence from character.', t:' Focus on the impact of the behaviour, not a verdict on who they are as a person.'}
+          ],
+          table:{cols:['Age','Moral stage','What to expect'],rows:[
+            {badge:'0-6',bg:'#d4ecd6',color:'#2a5c30',cells:['Pre-conventional — avoiding punishment','"I won\'t do it if I\'ll get in trouble." Clear, consistent consequences.']},
+            {badge:'7-12',bg:'#dde8f5',color:'#1e3a5c',cells:['Pre-conventional to Conventional','Rules become about pleasing others; fairness becomes very important']},
+            {badge:'13+',bg:'#fdf0d8',color:'#6a4400',cells:['Conventional — law and order thinking','Can engage with real ethical discussion; challenge them with real dilemmas']}
+          ]},
+          receipt:{to:'Lawrence Kohlberg', date:'1958', addr:'University of Chicago,<br>Chicago, USA'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f3', tab:'c-terra', panel:'p-terra', label:'Montessori Planes',
+    subtabs:[{label:'Sensitive Periods', cls:'c-yellow', key:'sens'}],
+    docs:[
+      {
+        id:'Theory 3 of 8', status:'What it is', subtag:'sens',
+        desc:'Four 6-year planes of development, each with sensitive periods — windows when specific learning happens almost effortlessly if the environment supports it.',
+        date:'Montessori, 1909',
+        content:{
+          title:'Planes of Development', byline:'Maria Montessori',
+          m1:'Montessori, 1909', m2:'Developmental', m3:'Sensitive periods',
+          note:'Sensitive periods concept borrowed from de Vries. The absorbent mind (0-6) is Montessori\'s most cited insight. See also: Prepared Environment.',
+          body:'Montessori identified four 6-year "planes" of development, each with its own way of learning and key sensitivities. Within each plane, there are "sensitive periods" — windows of heightened receptivity when learning specific skills (language, order, movement) happens almost effortlessly. The child is not an empty vessel to be filled — they are a self-constructing human being who needs the right environment and freedom.',
+          excerpt:'Your toddler\'s obsession with pouring water is a sensitive period for fine motor control and order — not a mess-making conspiracy. You don\'t need a Montessori school. You need to recognise the window and support it.',
+          tips:[
+            {b:'Follow the child.', t:' When they become obsessed with something — sorting, drawing, building — lean in. It\'s probably a sensitive period at work.'},
+            {b:'Give real tools.', t:' Small children want to do real things. Let them sweep, pour, button, fold. This builds concentration and self-efficacy.'},
+            {b:'Prepare the environment.', t:' Low hooks, accessible shelves, reachable drawers — give them a world scaled to their size and capability.'},
+            {b:'Don\'t interrupt deep concentration.', t:' A child absorbed in a task is doing important developmental work — not just playing.'}
+          ],
+          table:{cols:['Plane','Age','Key theme'],rows:[
+            {badge:'First',bg:'#d4ecd6',color:'#2a5c30',cells:['0-6','Absorbent mind; sensitive periods for language, order, movement, sensory learning']},
+            {badge:'Second',bg:'#dde8f5',color:'#1e3a5c',cells:['6-12','Reasoning, morality, social belonging, cultural curiosity — the "calm" years']},
+            {badge:'Third',bg:'#ede8f5',color:'#4a2a6a',cells:['12-18','Identity, independence, social justice, finding one\'s place in the world']},
+            {badge:'Fourth',bg:'#fdf0d8',color:'#6a4400',cells:['18-24','Becoming a full member of society; purpose and contribution']}
+          ]},
+          receipt:{to:'Maria Montessori', date:'1909', addr:'Casa dei Bambini,<br>Rome, Italy'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f4', tab:'c-mauve', panel:'p-mauve', label:'Social Learning Theory',
+    subtabs:[{label:'Modelling', cls:'c-black', key:'model'},{label:'Self-Efficacy', cls:'c-violet', key:'efficacy'}],
+    docs:[
+      {
+        id:'Theory 4 of 8', status:'Observational Learning', subtag:'model',
+        desc:'Children learn by watching. The Bobo Doll experiments showed behaviour is absorbed from models — especially admired or close ones — without reward or instruction.',
+        date:'Bandura, 1961',
+        content:{
+          title:'Social Learning Theory', byline:'Albert Bandura',
+          m1:'Bandura, 1961', m2:'Behavioural-cognitive', m3:'Observational learning',
+          note:'Bobo Doll experiment, 1961. Observational learning demonstrated without reward or instruction. See also: self-efficacy, 1977.',
+          body:'Children learn by watching, not just by doing. Bandura\'s famous Bobo Doll experiments showed that children who watched an adult behave aggressively toward a toy promptly did the same — without any reward or instruction. The mechanism is observational learning: children absorb behaviours, attitudes, and emotional responses simply by watching others, especially people they admire or are close to.',
+          excerpt:'You are your child\'s most powerful teacher — not because of what you tell them, but because of what they see you do. How you handle conflict, stress, failure, and kindness is being absorbed and catalogued constantly.',
+          tips:[
+            {b:'Model what you want to see.', t:' Want them to read? Read. Want them to apologise well? Apologise genuinely — including to them.'},
+            {b:'Narrate your thinking.', t:' "I\'m feeling really frustrated right now, so I\'m going to take three deep breaths before I respond." You\'re teaching regulation by example.'},
+            {b:'Build the "yet" mindset.', t:' "You can\'t do it yet" is more powerful than "you\'ll get it eventually" — it keeps the door open.'},
+            {b:'Choose media mindfully.', t:' Characters on screen become observational models too — especially for younger children who don\'t distinguish fiction from reality reliably.'}
+          ],
+          table:{cols:['Age','What they\'re absorbing','Watch for'],rows:[
+            {badge:'0-5',bg:'#d4ecd6',color:'#2a5c30',cells:['Everything — facial expressions, tone, how you treat others','Your emotional regulation is their model']},
+            {badge:'6-12',bg:'#dde8f5',color:'#1e3a5c',cells:['Peer behaviour, teacher behaviour, screen characters','They\'re comparing your values to their peers\' — start conversations']},
+            {badge:'13+',bg:'#ede8f5',color:'#4a2a6a',cells:['Social media, influencers, friend groups','Stay a trusted, curious commentator on what they\'re watching']}
+          ]},
+          receipt:{to:'Albert Bandura', date:'1961', addr:'Stanford University,<br>Palo Alto, USA'}
+        }
+      },
+      {
+        id:'Theory 4 of 8', status:'Self-Efficacy', subtag:'efficacy',
+        desc:'A child\'s belief that they can succeed shapes whether they even try. Built through mastery, modelling, encouragement, and reading physiological signals correctly.',
+        date:'Bandura, 1977',
+        content:{
+          title:'Self-Efficacy', byline:'Albert Bandura — Sources of Self-Efficacy, 1977',
+          m1:'Bandura, 1977', m2:'Motivational construct', m3:'Four sources',
+          note:'Self-efficacy concept formalised 1977. Four sources: mastery experiences, vicarious learning, verbal persuasion, physiological state.',
+          body:'Self-efficacy is a child\'s belief that they are capable of succeeding at a specific task. It is distinct from self-esteem (a general sense of worth) — it is domain-specific and directly shapes whether a child attempts challenges, how long they persist, and how they recover from failure. Bandura identified four sources that build it.',
+          excerpt:'The single most powerful builder of self-efficacy is mastery experience — successfully doing the thing, especially through genuine effort. This is why letting children struggle productively, rather than rescuing them, is one of the most loving things a parent can do.',
+          tips:[
+            {b:'Set stretch goals, not easy wins.', t:' Genuine achievement through real effort builds efficacy. Hollow success does not.'},
+            {b:'Let them watch others succeed.', t:' Vicarious experience — watching a peer of similar ability master something — dramatically raises "if they can, I can."'},
+            {b:'Use process-focused praise.', t:' "You worked through that even when it was hard" builds efficacy. "You\'re so clever" does not.'},
+            {b:'Reframe pre-performance nerves.', t:' The nervous system\'s signal is identical whether labelled excitement or dread. Teach them to say "I\'m excited" instead of "I\'m scared."'}
+          ],
+          receipt:{to:'Albert Bandura', date:'1977', addr:'Stanford University,<br>Palo Alto, USA'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f5', tab:'c-amber', panel:'p-amber', label:'Hierarchy of Needs',
+    subtabs:[],
+    docs:[
+      {
+        id:'Theory 5 of 8', status:'What it is',
+        desc:'Human needs exist in a hierarchy. A hungry, tired, or frightened child cannot learn or thrive — no matter how good the teacher or the environment.',
+        date:'Maslow, 1943',
+        content:{
+          title:'Hierarchy of Needs', byline:'Abraham Maslow',
+          m1:'Maslow, 1943', m2:'Humanistic psychology', m3:'Five layers',
+          note:'Hierarchy of Needs, 1943. Applied to education by later theorists. The pyramid is a popular simplification — Maslow\'s original model was more fluid.',
+          body:'Maslow proposed that human needs exist in a hierarchy. From bottom to top: Physiological (food, sleep, warmth), Safety (security, stability), Belonging (love, friendship, family), Esteem (confidence, achievement, recognition), and Self-actualisation (becoming who you\'re meant to be). Before a person can focus on higher-level needs, the lower levels must be reasonably met.',
+          excerpt:'When your child is struggling at school or acting out, the first question isn\'t "what\'s wrong with their attitude?" It\'s "which layer of the pyramid needs attention?" Sleep deprivation alone tanks cognition, emotional regulation, and social behaviour.',
+          tips:[
+            {b:'Protect sleep ruthlessly.', t:' It is the single most impactful physiological intervention for children\'s behaviour, mood, and learning capacity.'},
+            {b:'Before homework, check hunger and tiredness.', t:' A snack and 20 minutes of downtime after school isn\'t indulgence — it\'s pyramid maintenance.'},
+            {b:'Belonging is non-negotiable.', t:' "No matter what happens, you are loved and you belong in this family" is one of the most protective sentences you can say.'},
+            {b:'Esteem needs careful feeding.', t:' Genuine, specific praise ("you worked so hard on that") builds real esteem. Hollow praise ("you\'re so amazing!") can actually undermine it.'}
+          ],
+          table:{cols:['Age','Priority layer','Common gap'],rows:[
+            {badge:'0-5',bg:'#d4ecd6',color:'#2a5c30',cells:['Physiological + Safety','Sleep regression, feeding disruption, transitions']},
+            {badge:'6-12',bg:'#dde8f5',color:'#1e3a5c',cells:['Belonging + Esteem','Friendship exclusion, school performance anxiety']},
+            {badge:'13+',bg:'#ede8f5',color:'#4a2a6a',cells:['Esteem + Self-actualisation','Identity uncertainty, comparison culture, social media']}
+          ]},
+          receipt:{to:'Abraham Maslow', date:'1943', addr:'Brooklyn College,<br>New York, USA'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f6', tab:'c-plum', panel:'p-plum', label:'16 Basic Desires',
+    subtabs:[{label:'The Desires', cls:'c-violet', key:'desires'}],
+    docs:[
+      {
+        id:'Theory 6 of 8', status:'What it is', subtag:'desires',
+        desc:'16 universal motivators drive virtually all behaviour. Each person has a different profile — and most parent-child conflict lives in the gap between profiles.',
+        date:'Reiss, 2000',
+        content:{
+          title:'16 Basic Desires Theory', byline:'Steven Reiss',
+          m1:'Reiss, 2000', m2:'Motivational theory', m3:'16 desires',
+          note:'16 Basic Desires Theory, 2000. Profile differences — not bad intentions — explain most recurring friction. Neither profile is wrong.',
+          body:'Reiss identified 16 universal human motivators that drive virtually all behaviour — power, curiosity, social contact, independence, order, honour, and tranquillity among others. Crucially, each person has a different profile. Most human conflict comes from projecting our own desire profile onto others and expecting them to share our motivations.',
+          excerpt:'Your child\'s behaviour that drives you mad may be them living out a desire that you personally rate low. A child with high curiosity who asks a thousand questions isn\'t being annoying — they\'re being themselves. This transforms conflict from a battle of wills into a difference of wiring.',
+          desires:['Power','Curiosity','Independence','Status','Social Contact','Vengeance','Honour','Idealism','Physical Activity','Romance','Family','Order','Eating','Acceptance','Tranquillity','Saving'],
+          tips:[
+            {b:'Map your child\'s profile.', t:' What do they seek out constantly? Social contact? Physical activity? Order? Novelty? Those patterns are data.'},
+            {b:'Map your own profile too.', t:' The clashes between your profile and theirs are where most parent-child friction lives. Awareness defuses it.'},
+            {b:'Don\'t pathologise their desires.', t:' High independence, high status-seeking, high idealism — these aren\'t problems to be fixed. They\'re a personality to be channelled.'},
+            {b:'Design activities around their desires.', t:' A child high in physical activity and competition needs different outlets than one high in tranquillity and aesthetic appreciation.'}
+          ],
+          receipt:{to:'Steven Reiss', date:'2000', addr:'Ohio State University,<br>Columbus, USA'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f7', tab:'c-teal', panel:'p-teal', label:'4 Parenting Styles',
+    subtabs:[
+      {label:'Authoritative', cls:'c-sage', key:'auth'},
+      {label:'Authoritarian', cls:'c-terra', key:'autn'},
+      {label:'Permissive', cls:'c-amber', key:'perm'},
+      {label:'Uninvolved', cls:'c-black', key:'unin'}
+    ],
+    docs:[
+      {
+        id:'Framework 7 of 8', status:'Overview — Two Axes',
+        desc:'Warmth and demandingness form two axes. Where a parent falls on both determines their style — and the outcomes for their children are strikingly different.',
+        date:'Baumrind, 1966',
+        content:{
+          title:'The Four Parenting Styles', byline:'Diana Baumrind · Maccoby & Martin',
+          m1:'Baumrind, 1966', m2:'Parenting research', m3:'Two axes',
+          note:'Baumrind\'s original three styles, 1966. Uninvolved style added by Maccoby & Martin, 1983. Two axes: warmth/responsiveness x demandingness/control.',
+          body:'Research across decades has consistently clustered parenting into four styles based on two axes: warmth/responsiveness (how much you respond to your child\'s emotional needs) and demandingness/control (how much structure and expectation you provide). The resulting four styles have profoundly different outcomes for children.',
+          stylesGrid:[
+            {name:'Authoritative', tag:'High warmth + High structure', tagBg:'#d4ecd6', tagColor:'#2a5c30', topColor:'#3d5c40', desc:'Clear boundaries with warmth and explanation. Children\'s feelings are validated even when behaviour is not. Consistently linked to the best outcomes across cultures.'},
+            {name:'Authoritarian', tag:'Low warmth + High structure', tagBg:'#fde8d8', tagColor:'#7a3010', topColor:'#8a4a32', desc:'Rules without explanation; obedience expected. Can produce compliant children but often at the cost of self-esteem, intrinsic motivation, and resilience.'},
+            {name:'Permissive', tag:'High warmth + Low structure', tagBg:'#fdf5d8', tagColor:'#6a4400', topColor:'#8a6a1e', desc:'Warm and responsive but few consistent boundaries. Children feel loved but may struggle with self-regulation, frustration tolerance, and authority figures.'},
+            {name:'Uninvolved', tag:'Low warmth + Low structure', tagBg:'#eeeeee', tagColor:'#555555', topColor:'#444444', desc:'Neither responsive nor demanding. Associated with the most negative outcomes — not because parents don\'t love their children, but because needs go systematically unmet.'}
+          ],
+          excerpt:'Aim for authoritative — not permissive warmth. Children need both love and limits. The goal is "I love you AND this boundary stands." Most parents flex across styles under stress — awareness is the starting point.',
+          tips:[
+            {b:'Aim for authoritative.', t:' Children need both love and limits. The goal is "I love you AND this boundary stands."'},
+            {b:'Explain your rules.', t:' "Because I said so" closes down thinking. "Because I want you to be safe, and here\'s why" builds reasoning.'},
+            {b:'Your style can shift by situation.', t:' Most parents flex across styles — this is normal. The question is what your default pattern is under stress.'},
+            {b:'Cultural context matters.', t:' Some research suggests authoritarian styles have different outcomes in collectivist vs. individualist cultures — an active area of nuance in the literature.'}
+          ],
+          receipt:{to:'Diana Baumrind', date:'1966', addr:'University of California,<br>Berkeley, USA'}
+        }
+      },
+      {
+        id:'Framework 7 of 8', status:'Authoritative', subtag:'auth',
+        desc:'High warmth + High structure. The research gold standard. Feelings are validated even when behaviour is not. Clear limits, warm explanations.',
+        date:'Baumrind, 1966',
+        content:{
+          title:'Authoritative Parenting', byline:'High warmth · High structure',
+          m1:'Best outcomes', m2:'Warmth + Limits', m3:'Baumrind, 1966',
+          note:'The research consensus gold standard. Validation of emotion is distinct from validation of behaviour — a critical nuance that parents often miss.',
+          body:'Authoritative parents set clear, consistent boundaries while remaining warm and emotionally responsive. Rules are explained, not just imposed. When a child breaks a rule, the parent addresses the behaviour without attacking the child\'s character. Children in authoritative homes feel secure enough to disagree — and learn that disagreement can be handled without the relationship breaking.',
+          excerpt:'"I love you AND this boundary stands." This conjunction — and, not but — is the heart of authoritative parenting. It refuses the false choice between warmth and limits, insisting that both can coexist in the same moment.',
+          tips:[
+            {b:'Validate the feeling, not the behaviour.', t:' "I can see you\'re furious. You still can\'t hit your sister."'},
+            {b:'Give reasons.', t:' Children who understand why rules exist are more likely to internalise them as values rather than just follow them as orders.'},
+            {b:'Invite negotiation — selectively.', t:' On some things, structured negotiation teaches reasoning. On non-negotiables, be clear about what is and isn\'t up for discussion.'},
+            {b:'Repair after conflict.', t:' Come back after discipline and reconnect. This teaches children that conflict doesn\'t have to break relationships.'}
+          ],
+          receipt:{to:'Diana Baumrind', date:'1966', addr:'University of California,<br>Berkeley, USA'}
+        }
+      },
+      {
+        id:'Framework 7 of 8', status:'Authoritarian', subtag:'autn',
+        desc:'Low warmth + High structure. Obedience without explanation. Compliance at the cost of self-esteem, intrinsic motivation, and internal moral reasoning.',
+        date:'Baumrind, 1966',
+        content:{
+          title:'Authoritarian Parenting', byline:'Low warmth · High structure',
+          m1:'Compliance risk', m2:'Rules first', m3:'Baumrind, 1966',
+          note:'Cultural variance noted: outcomes differ across collectivist vs. individualist cultures. Not straightforwardly "bad" in all contexts.',
+          body:'Authoritarian parents maintain high expectations and strict rules, but explain them rarely and respond to emotional needs inconsistently. While children in these homes often perform well on immediate compliance, research shows costs over time: lower self-esteem, reduced intrinsic motivation, and less resilience when parental authority is absent.',
+          excerpt:'The risk with authoritarian parenting is not that children learn to follow rules — it\'s that they only learn to follow rules when someone is watching. Internal moral reasoning requires understanding the why. Without it, compliance is situational.',
+          tips:[
+            {b:'Add the "why" — even once.', t:' You don\'t have to negotiate. But explaining the reason behind a rule, even briefly, increases the chance a child internalises it.'},
+            {b:'Watch for emotional shutting down.', t:' Children in highly authoritarian homes often stop bringing their real problems to parents. Keep a channel open.'},
+            {b:'Distinguish firmness from harshness.', t:' High expectations and clear consequences don\'t require coldness or contempt. These are separable.'},
+            {b:'Consider your own upbringing.', t:' Many authoritarian patterns are transmitted unconsciously. Reflection — not guilt — is the starting point.'}
+          ],
+          receipt:{to:'Diana Baumrind', date:'1966', addr:'University of California,<br>Berkeley, USA'}
+        }
+      },
+      {
+        id:'Framework 7 of 8', status:'Permissive', subtag:'perm',
+        desc:'High warmth + Low structure. Children feel loved but may struggle with self-regulation, frustration tolerance, and authority figures outside the home.',
+        date:'Baumrind, 1966',
+        content:{
+          title:'Permissive Parenting', byline:'High warmth · Low structure',
+          m1:'Warmth without limits', m2:'Baumrind, 1966', m3:'Boundary gaps',
+          note:'Often misidentified as the "kind" approach. Warmth without structure is incomplete. Often stems from a desire to avoid the harshness of one\'s own upbringing.',
+          body:'Permissive parents are warm, nurturing, and emotionally attuned — but avoid setting or enforcing consistent limits. The motivation is often positive: a desire to be responsive and avoid authoritarian patterns. But children need both warmth and structure to thrive — warmth without limits leaves them unprepared for a world that does have limits.',
+          excerpt:'The warmth is real — and it matters. The gap is in limits. Children without consistent boundaries often struggle in environments where limits do exist and they haven\'t been prepared for them.',
+          tips:[
+            {b:'Separate warmth from limitlessness.', t:' You can be deeply loving AND hold a firm line on screen time. These are not opposites.'},
+            {b:'Start small with consistency.', t:' Pick one rule and hold it 100% of the time. Consistency in one area builds the muscle for consistency elsewhere.'},
+            {b:'Check whose discomfort you\'re managing.', t:' When you give in to avoid their upset, ask: is this helping them, or relieving my own discomfort at their distress?'},
+            {b:'Conflict is not damage.', t:' A child frustrated by a fair limit is not being harmed. Frustration tolerance is a skill — it\'s built by encountering manageable frustration.'}
+          ],
+          receipt:{to:'Diana Baumrind', date:'1966', addr:'University of California,<br>Berkeley, USA'}
+        }
+      },
+      {
+        id:'Framework 7 of 8', status:'Uninvolved', subtag:'unin',
+        desc:'Low warmth + Low structure. Neither responsive nor demanding. Associated with the most negative outcomes — usually from parental overwhelm, not indifference.',
+        date:'Maccoby & Martin, 1983',
+        content:{
+          title:'Uninvolved Parenting', byline:'Low warmth · Low structure — Maccoby & Martin',
+          m1:'Maccoby & Martin, 1983', m2:'Neglect risk', m3:'Unmet needs',
+          note:'Added by Maccoby & Martin, 1983. Often arises from parental overwhelm, mental health difficulties, or adverse circumstances — not simple indifference.',
+          body:'Uninvolved parenting is characterised by low responsiveness and low demandingness. Parents may provide basic physical needs but are emotionally unavailable, offer little structure, and are largely absent from the child\'s inner life. Research associates this style with the most consistently negative outcomes. Critically, this pattern usually reflects parental circumstance — mental health, overwhelm, trauma — more than a lack of love.',
+          excerpt:'If this description feels familiar, the response is not guilt but curiosity. What are the conditions that make presence hard? Addressing those conditions — with support, if needed — is the most direct route to change. Most parents who land here are depleted, not uncaring.',
+          tips:[
+            {b:'One present moment counts.', t:' A single genuinely attentive conversation, a bedtime routine held consistently — these accumulate.'},
+            {b:'Get support for yourself.', t:' Uninvolved patterns are often downstream of parental depression, overwhelm, or unresolved trauma. These are treatable conditions.'},
+            {b:'Structure is a form of care.', t:' A consistent mealtime, a reliable bedtime — these signal "you matter" as reliably as warmth does.'},
+            {b:'It\'s never too late to shift.', t:' Research on "earned security" shows that a changed pattern, sustained over time, genuinely revises a child\'s internal model.'}
+          ],
+          receipt:{to:'Maccoby & Martin', date:'1983', addr:'Stanford University,<br>Palo Alto, USA'}
+        }
+      }
+    ]
+  },
+  {
+    id:'f8', tab:'c-rust', panel:'p-rust', label:'Brain Development',
+    subtabs:[{label:'Dev. Windows', cls:'c-yellow', key:'windows'}],
+    docs:[
+      {
+        id:'Framework 8 of 8', status:'What it is', subtag:'windows',
+        desc:'The brain is sculpted by experience, not pre-formed. Meaningful, effortful engagement builds architecture that screens and passive entertainment cannot replicate.',
+        date:'Healy, 1987',
+        content:{
+          title:'Your Child\'s Growing Mind', byline:'Jane Healy — Brain Development & Learning',
+          m1:'Healy, 1987', m2:'Neurodevelopmental', m3:'Experience-dependent',
+          note:'Your Child\'s Growing Mind, 1987. Central insight: the brain is not pre-formed — it is sculpted by experience on different timelines for different regions.',
+          body:'Healy\'s landmark work bridges neuroscience and parenting in plain language. The central insight: the brain is not pre-formed at birth — it is sculpted by experience. Different regions develop on different timelines, and certain kinds of experiences (language-rich environments, physical play, real-world problem solving, creative struggle) build brain architecture in ways that screens and passive entertainment simply cannot replicate. The brain has a preference for meaningful, effortful engagement — the struggle IS the learning.',
+          excerpt:'Every environment you create — the stories you tell at bedtime, the problems you let them struggle with, the dinner-table conversations, the boredom you allow — is brain-building. You don\'t need expensive resources. You need presence and intentionality.',
+          tips:[
+            {b:'Read aloud — longer than you think you should.', t:' Healy is emphatic: reading aloud to children, even well into primary school, is one of the highest-value brain-building activities available.'},
+            {b:'Protect unstructured time.', t:' Boredom is the precursor to creativity. A bored child is a brain trying to wire itself — don\'t rescue them too quickly.'},
+            {b:'Let them struggle productively.', t:' The zone just beyond what they can do easily is where brain growth happens. Resist solving problems for them.'},
+            {b:'Talk more, screen less in early years.', t:' The prefrontal cortex — responsible for planning, impulse control, and reasoning — is the last to develop and the most shaped by language-rich interaction.'},
+            {b:'Physical movement is brain development.', t:' Gross motor play, dance, sport, and outdoor time are not a break from learning — they ARE learning, neurologically.'}
+          ],
+          table:{cols:['Age','Brain focus','What helps most'],rows:[
+            {badge:'0-3',bg:'#f5ede6',color:'#6b3a22',cells:['Sensory processing, emotional regulation, language acquisition','Talk constantly, sing, physical touch, consistent caregiving']},
+            {badge:'3-7',bg:'#d4ecd6',color:'#2a5c30',cells:['Language explosion, early reasoning, fine motor','Stories, imaginative play, music, drawing, early literacy through play']},
+            {badge:'7-12',bg:'#dde8f5',color:'#1e3a5c',cells:['Logical thinking, memory consolidation, social reasoning','Reading independently, real problem solving, sport, creative projects']},
+            {badge:'12-18',bg:'#ede8f5',color:'#4a2a6a',cells:['Prefrontal development, abstract reasoning, identity','Meaningful responsibility, debate, creative expression, mentors']}
+          ]},
+          receipt:{to:'Jane Healy', date:'1987', addr:'Educational Research,<br>Colorado, USA'}
+        }
+      }
+    ]
+  }
+];
+
+let openId = null;
+const activeFilter = {};
+
+// Folder colour → index tab darker colour
+const itClass = {
+  'c-sage':'it-sage','c-navy':'it-navy','c-terra':'it-terra','c-mauve':'it-mauve',
+  'c-amber':'it-amber','c-plum':'it-plum','c-teal':'it-teal','c-rust':'it-rust'
+};
+// Folder colour → entry date (archival flavour)
+const folderDates = {
+  f1:'Entry date: 11.09.1969', f2:'Entry date: 02.11.1958',
+  f3:'Entry date: 27.01.1909', f4:'Entry date: 14.03.1961',
+  f5:'Entry date: 09.05.1943', f6:'Entry date: 18.06.2000',
+  f7:'Entry date: 09.05.1966', f8:'Entry date: 30.08.1987'
+};
+
+function build() {
+  const stack = document.getElementById('stack');
+  stack.innerHTML = '';
+  folders.forEach((f) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'folder-wrap';
+
+    // ── Folder card (coloured band) ───────────────────────────────────────
+    const card = document.createElement('div');
+    card.className = 'folder-card ' + f.tab;
+    card.id = 'card-' + f.id;
+    card.onclick = () => toggle(f.id);
+
+    const left = document.createElement('div');
+    left.className = 'folder-card-left';
+    left.innerHTML =
+      '<div class="folder-name">' + f.label + '</div>' +
+      '<div class="folder-meta">' + (folderDates[f.id] || '') + '</div>';
+
+    const icon = document.createElement('div');
+    icon.className = 'folder-icon';
+    icon.textContent = '📁';
+
+    card.appendChild(left);
+    card.appendChild(icon);
+
+    // ── Index tabs row (protruding from bottom of card) ───────────────────
+    const tabsRow = document.createElement('div');
+    tabsRow.className = 'index-tabs-row';
+
+    // If folder has subtabs, each gets its own index tab
+    if (f.subtabs && f.subtabs.length) {
+      f.subtabs.forEach((st, si) => {
+        const it = document.createElement('div');
+        it.className = 'index-tab ' + (st.itcls || itClass[f.tab] || 'it-sage');
+        // Use the subtab colour class if provided, otherwise default to folder's it-class
+        it.className = 'index-tab ' + st.cls;
+        it.textContent = st.label;
+        it.id = 'subtab-' + f.id + '-' + st.key;
+        it.onclick = (e) => {
+          e.stopPropagation();
+          if (openId !== f.id) toggle(f.id);
+          setFilter(f.id, st.key);
+        };
+        tabsRow.appendChild(it);
+      });
+    } else {
+      // Single index tab showing the folder's index code
+      const it = document.createElement('div');
+      it.className = 'index-tab ' + (itClass[f.tab] || 'it-sage');
+      it.textContent = 'Index ' + f.id.replace('f','') + '-' + String(folders.indexOf(f)*7+1).padStart(2,'0');
+      tabsRow.appendChild(it);
+    }
+
+    card.appendChild(tabsRow);
+    wrap.appendChild(card);
+
+    // ── Panel ─────────────────────────────────────────────────────────────
+    const panel = document.createElement('div');
+    panel.className = 'folder-panel ' + f.panel;
+    panel.id = 'panel-' + f.id;
+
+    const inner = document.createElement('div');
+    inner.className = 'panel-inner';
+
+    // Filter chip strip (only if subtabs exist)
+    if (f.subtabs && f.subtabs.length) {
+      const strip = document.createElement('div');
+      strip.className = 'subtab-filter-strip visible';
+      strip.id = 'strip-' + f.id;
+      const allChip = document.createElement('div');
+      allChip.className = 'filter-chip c-black chip-active';
+      allChip.textContent = 'All';
+      allChip.id = 'chip-' + f.id + '-all';
+      allChip.onclick = () => setFilter(f.id, null);
+      strip.appendChild(allChip);
+      f.subtabs.forEach(st => {
+        const chip = document.createElement('div');
+        chip.className = 'filter-chip ' + st.cls;
+        chip.textContent = st.label;
+        chip.id = 'chip-' + f.id + '-' + st.key;
+        chip.onclick = () => setFilter(f.id, st.key);
+        strip.appendChild(chip);
+      });
+      inner.appendChild(strip);
+    }
+
+    f.docs.forEach(doc => {
+      const docCard = document.createElement('div');
+      docCard.className = 'doc-card';
+      docCard.dataset.subtag = doc.subtag || '';
+      docCard.innerHTML =
+        '<div class="doc-id">' + doc.id + '</div>' +
+        '<div class="doc-body"><div class="doc-status">' + doc.status + '</div><div class="doc-desc">' + doc.desc + '</div></div>' +
+        '<div class="doc-date">' + doc.date + '</div>';
+      docCard.onclick = () => showDetail(f, doc);
+      inner.appendChild(docCard);
+    });
+
+    panel.appendChild(inner);
+    wrap.appendChild(panel);
+    stack.appendChild(wrap);
+  });
+}
+
+function setFilter(folderId, key) {
+  const folder = folders.find(f => f.id === folderId);
+  if (!folder) return;
+  activeFilter[folderId] = key;
+  (folder.subtabs || []).forEach(st => {
+    const el = document.getElementById('subtab-' + folderId + '-' + st.key);
+    if (el) el.classList.toggle('it-active', key === st.key);
+  });
+  const allChip = document.getElementById('chip-' + folderId + '-all');
+  if (allChip) allChip.classList.toggle('chip-active', key === null);
+  (folder.subtabs || []).forEach(st => {
+    const chip = document.getElementById('chip-' + folderId + '-' + st.key);
+    if (chip) chip.classList.toggle('chip-active', key === st.key);
+  });
+  const panel = document.getElementById('panel-' + folderId);
+  if (!panel) return;
+  panel.querySelectorAll('.doc-card').forEach(card => {
+    const tag = card.dataset.subtag;
+    card.classList.toggle('card-hidden', key !== null && tag !== key);
+  });
+  if (openId === folderId) {
+    panel.style.height = 'auto';
+    panel.style.height = panel.scrollHeight + 'px';
+  }
+}
+
+function toggle(id) {
+  if (openId && openId !== id) closeFolder(openId);
+  const panel = document.getElementById('panel-' + id);
+  const card = document.getElementById('card-' + id);
+  const folder = folders.find(f => f.id === id);
+  if (openId === id) {
+    closeFolder(id);
+  } else {
+    panel.style.height = 'auto';
+    const h = panel.scrollHeight;
+    panel.style.height = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => { panel.style.height = h + 'px'; }));
+    card.classList.add('f-open');
+    openId = id;
+  }
+}
+
+function closeFolder(id) {
+  const panel = document.getElementById('panel-' + id);
+  const card = document.getElementById('card-' + id);
+  const folder = folders.find(f => f.id === id);
+  panel.style.height = '0';
+  card.classList.remove('f-open');
+  (folder.subtabs || []).forEach(st => {
+    const s = document.getElementById('subtab-' + id + '-' + st.key);
+    if (s) s.classList.remove('it-active');
+  });
+  openId = null;
+}
+
+function showDetail(folder, doc) {
+  const c = doc.content;
+  document.getElementById('d-bar').className = 'detail-folder-bar ' + folder.tab;
+  document.getElementById('d-folder-name').textContent = folder.label;
+
+  // Split title into two lines for the stitch bold + italic style
+  const titleWords = c.title.split(' ');
+  const splitAt = Math.ceil(titleWords.length / 2);
+  const titleLine1 = titleWords.slice(0, splitAt).join(' ');
+  const titleLine2 = titleWords.slice(splitAt).join(' ');
+
+  // ── MAIN COLUMN ─────────────────────────────────────────────────────────
+  let main = '';
+  main += '<div class="detail-file-badge">' + c.m3 + '</div>';
+  main += '<div class="detail-case-line">&bull; ' + c.m2 + '</div>';
+  main += '<div class="detail-title">' + titleLine1 + '</div>';
+  if (titleLine2) main += '<span class="detail-title-italic">' + titleLine2 + '</span>';
+  main += '<div class="detail-byline">' + c.byline + '</div>';
+
+  // Overview block — tilt-left paper card
+  main += '<div class="detail-overview">';
+  main += '<div class="detail-overview-header">';
+  main += '<div class="detail-overview-bar"></div>';
+  main += '<div><div class="detail-overview-title">Theoretical Overview</div>';
+  main += '<div class="detail-overview-sub">' + c.m1 + '</div></div>';
+  main += '</div>';
+  main += '<div class="detail-body detail-body-dropcap">' + c.body + '</div>';
+  // Key insight as blockquote inside overview
+  if (c.excerpt) {
+    main += '<div class="detail-premise"><div class="detail-premise-label">Core Premise</div>';
+    main += '<div class="detail-premise-text">&ldquo;' + c.excerpt + '&rdquo;</div></div>';
+  }
+  main += '</div>';
+
+  // Styles grid if present
+  if (c.stylesGrid) {
+    main += '<div class="detail-section-header"><div class="detail-section-label">The Four Quadrants</div></div>';
+    main += '<div class="d-styles-grid">';
+    c.stylesGrid.forEach(s => {
+      main += '<div class="d-style-card" style="border-top:3px solid ' + s.topColor + '">';
+      main += '<div class="d-style-name">' + s.name + '</div>';
+      main += '<span class="d-style-tag" style="background:' + s.tagBg + ';color:' + s.tagColor + '">' + s.tag + '</span>';
+      main += '<div class="d-style-desc">' + s.desc + '</div></div>';
+    });
+    main += '</div>';
+  }
+
+  // Desires tags
+  if (c.desires) {
+    main += '<div class="detail-section-header"><div class="detail-section-label">The 16 Desires</div></div>';
+    main += '<div class="d-desires">';
+    c.desires.forEach(d => { main += '<span class="d-desire-tag">' + d + '</span>'; });
+    main += '</div>';
+  }
+
+  // Tips — "Field Notes & Practical Integration"
+  if (c.tips && c.tips.length) {
+    main += '<div class="detail-section-header"><div class="detail-section-label">Field Notes &amp; Practical Integration</div></div>';
+    main += '<ul class="detail-tips">';
+    c.tips.forEach((t, i) => {
+      const num = (i + 1) < 10 ? '0' + (i + 1) : '' + (i + 1);
+      main += '<li><span class="tip-num">' + num + '.</span><span><strong>' + t.b + '</strong>' + t.t + '</span></li>';
+    });
+    main += '</ul>';
+  }
+
+  // Footer: catalog info + rubber stamp
+  const stampYear = c.m1.includes(',') ? c.m1.split(',')[1].trim() : c.m1;
+  main += '<div class="doc-footer">';
+  main += '<div class="doc-footer-meta">';
+  main += '<span>Catalog Number</span><strong>' + folder.id.toUpperCase() + '-AR-' + stampYear + '-P</strong>';
+  main += '<span style="margin-top:6px">Custodian</span><strong>' + c.receipt.to + '</strong>';
+  main += '<span>' + c.receipt.addr.replace('<br>', ', ') + '</span>';
+  main += '</div>';
+  main += '<div class="rubber-stamp">VERIFIED<span class="rubber-stamp-sub">Archive Unit 08</span></div>';
+  main += '</div>';
+
+  // ── SIDEBAR COLUMN ───────────────────────────────────────────────────────
+  let sidebar = '';
+
+  // Dev reference card (age table) if present
+  if (c.table) {
+    sidebar += '<div class="detail-ref-card">';
+    sidebar += '<div class="detail-ref-label">Developmental Reference</div>';
+    sidebar += '<table class="detail-age-table"><thead><tr>';
+    sidebar += '<th>' + c.table.cols[0] + '</th>';
+    sidebar += '<th>' + c.table.cols[c.table.cols.length - 1] + '</th>';
+    sidebar += '</tr></thead><tbody>';
+    c.table.rows.forEach(row => {
+      sidebar += '<tr>';
+      sidebar += '<td><span class="age-pill" style="background:' + row.bg + ';color:' + row.color + '">' + row.badge + '</span></td>';
+      sidebar += '<td>' + row.cells[row.cells.length - 1] + '</td>';
+      sidebar += '</tr>';
+    });
+    sidebar += '</tbody></table>';
+    sidebar += '<div class="detail-ref-verified"><span class="detail-ref-verified-dot"></span>Archivist Verified &mdash; Ref. ' + c.receipt.to.split(' ').pop().toUpperCase() + '</div>';
+    sidebar += '</div>';
+  }
+
+  // Margin note (excerpt as mustard sticky card)
+  sidebar += '<div class="detail-paperclip">&#x1F4CE;</div>';
+  sidebar += '<div class="detail-margin-note">';
+  sidebar += '<div class="detail-margin-label">Curator Note</div>';
+  sidebar += '<div class="detail-margin-text">&ldquo;' + c.note + '&rdquo;</div>';
+  sidebar += '<div class="detail-margin-sig">&mdash; ' + c.receipt.to + '</div>';
+  sidebar += '</div>';
+
+  // ── ASSEMBLE ─────────────────────────────────────────────────────────────
+  document.getElementById('d-doc').innerHTML =
+    '<div class="detail-inner">' +
+    '<div class="detail-main">' + main + '</div>' +
+    '<div class="detail-sidebar">' + sidebar + '</div>' +
+    '</div>';
+
+  const overlay = document.getElementById('detail-overlay');
+  overlay.classList.remove('closing');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('detail-panel').scrollTop = 0;
+}
+
+function closeDetail() {
+  const overlay = document.getElementById('detail-overlay');
+  overlay.classList.remove('open');
+  overlay.classList.add('closing');
+  overlay.addEventListener('transitionend', function handler(e) {
+    if (e.target !== overlay) return;
+    overlay.classList.remove('closing');
+    overlay.removeEventListener('transitionend', handler);
+    document.body.style.overflow = '';
+  });
+}
+
+document.getElementById('detail-overlay').addEventListener('click', function(e) { if (e.target === this) closeDetail(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+build();
+setTimeout(() => toggle('f1'), 300);
+</script>
+</body>
+</html>

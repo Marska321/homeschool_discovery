@@ -60,6 +60,9 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <a href="/parent-toolkit.html" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Parent Toolkit
+            </a>
             <Link to="/#categories" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Categories
             </Link>
@@ -148,6 +151,13 @@ const Navbar = () => {
               </Link>
             </div>
 
+            <a
+              href="/parent-toolkit.html"
+              onClick={closeMobile}
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              Parent Toolkit
+            </a>
             <Link
               to="/#categories"
               onClick={closeMobile}
